@@ -1,5 +1,7 @@
 $(document).ready(function () {
 
+	var SPEED_DECAY_RATE = 0.25;
+
 	var STATE_TITLE = 0;
 	var STATE_GAME = 1;
 	var STATE_DEATH = 2;
@@ -29,12 +31,20 @@ $(document).ready(function () {
 	}
 
 	function draw() {
+		ctx.clearRect(0, 0, canvas.width, canvas.height);
+
 		if (person.walk) {
 			$(debug).html("leg:" + person.leg + " whichKey:" + whichKey + " " + (this.leg == 0 ? "left!" : "right!"));
 		}
 		else {
 			$(debug).html("not walking");
 		}
+
+		var meter = person.speed * 10;
+		ctx.beginPath();
+		ctx.rect(10, canvas.height - meter, 10, meter);
+		ctx.fillStyle = 'yellow';
+		ctx.fill();
 	}
 
 
@@ -44,6 +54,7 @@ $(document).ready(function () {
 		this.walkCounter = 0;
 		this.walkCheck = false;
 		this.lastTime = new Date();
+		this.speed = 0;
 		this.update = function () {
 			this.walkCheck = false;
 			if (whichKey == 0 && this.leg == 1) {
@@ -62,9 +73,14 @@ $(document).ready(function () {
 				var now = new Date();
 				var elapsed = now - this.lastTime;
 				this.lastTime = now;
-
-				$("#rate").html(elapsed);
+				this.speed += (300 / elapsed) / 2;
 			}
+
+			this.speed -= SPEED_DECAY_RATE;
+			if (this.speed < 0.01) {
+				this.speed = 0;
+			}
+			$("#rate").html("speed:" + this.speed);
 		}
 	}
 
