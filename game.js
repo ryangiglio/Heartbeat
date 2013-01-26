@@ -24,3 +24,5 @@ input.onMouseUp = function(x, y) {
 input.onMouseMove = function(x, y) {
 	// handle mousemove
 }
+
+alert('hi');
