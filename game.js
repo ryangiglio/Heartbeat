@@ -1,11 +1,55 @@
 $(document).ready(function () {
 
-	function update() {
+	var STATE_TITLE = 0;
+	var STATE_GAME = 1;
+	var STATE_DEATH = 2;
 
+	var whichKey = 0;
+
+	var gameState = STATE_GAME;
+
+	var person;
+
+	function init() {
+		person = new Person();
+	}
+
+	function update() {
+		switch (gameState) {
+			case STATE_TITLE:
+				break;
+			case STATE_GAME:
+
+				person.update();
+
+				break;
+			case STATE_DEATH:
+				break;
+		}
 	}
 
 	function draw() {
+		if (person.walk) {
+			$(debug).html("leg:" + person.leg + " whichKey:" + whichKey + " " + (this.leg == 0 ? "left!" : "right!"));
+		}
+		else {
+			$(debug).html("not walking");
+		}
+	}
 
+
+	function Person() {
+		this.leg = 0;
+		this.walk = false;
+		this.update = function () {
+			if (whichKey == 0 && this.leg == 1) {
+				this.leg = 0;
+				this.walk = true;
+			} else if (whichKey == 1 && this.leg == 0) {
+				this.leg = 1;
+				this.walk = true;
+			}
+		}
 	}
 
 	timer.onTick = function (dt) {
@@ -28,16 +72,17 @@ $(document).ready(function () {
 	}
 
 	$(document).keypress(function (event) {
+		person.walk = false;
 		switch (event.which) {
 			case 122:
-				$(debug).append("left!");
+				whichKey = 0;
 				break;
 			case 47:
-				$(debug).append("right!");
+				whichKey = 1;
 				break;
 		}
 	});
 
-	alert('hi');
 
+	init();
 });
