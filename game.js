@@ -1,28 +1,43 @@
-function update() {
-	
-}
+$(document).ready(function () {
 
-function draw() {
-	
-}
+	function update() {
 
-timer.onTick = function (dt) {
+	}
 
-	update();
-	draw();
+	function draw() {
 
-}
+	}
 
-input.onMouseDown = function(x, y) {
-	// handle mousedown
-}
+	timer.onTick = function (dt) {
 
-input.onMouseUp = function(x, y) {
-	// handle mouseup
-}
+		update();
+		draw();
 
-input.onMouseMove = function(x, y) {
-	// handle mousemove
-}
+	}
 
-alert('hi');
+	input.onMouseDown = function (x, y) {
+		// handle mousedown
+	}
+
+	input.onMouseUp = function (x, y) {
+		// handle mouseup
+	}
+
+	input.onMouseMove = function (x, y) {
+		// handle mousemove
+	}
+
+	$(document).keypress(function (event) {
+		switch (event.which) {
+			case 122:
+				$(debug).append("left!");
+				break;
+			case 47:
+				$(debug).append("right!");
+				break;
+		}
+	});
+
+	alert('hi');
+
+});
